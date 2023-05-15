@@ -24,9 +24,10 @@ public abstract class vacationDatabaseBuilder extends RoomDatabase {
                     INSTANCE= Room.databaseBuilder(context.getApplicationContext(),
                             vacationDatabaseBuilder.class, "TripWizardDatabase.db")
                             .fallbackToDestructiveMigration()
-                            .build()
+                            .build();
                 }
             }
         }
+        return INSTANCE;
     }
 }
