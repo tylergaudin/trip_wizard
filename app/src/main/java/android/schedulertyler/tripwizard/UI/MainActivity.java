@@ -39,8 +39,8 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.addSampleData:
+        if (item.getItemId() == R.id.addSampleData) {
+
                 Vacation vacation=new Vacation(0, "Taniti", "Marriott",
                         "2024-01-22","2024-01-24");
                 Repository repository=new Repository(getApplication());
