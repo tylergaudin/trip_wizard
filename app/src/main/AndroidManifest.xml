@@ -14,15 +14,19 @@
         tools:targetApi="31">
         <activity
             android:name=".UI.ExcursionDetails"
-            android:exported="false" />
+            android:exported="false"
+            android:label="Excursion Details"
+            android:parentActivityName=".UI.ExcursionList"/>
         <activity
             android:name=".UI.VacationDetails"
-            android:exported="false" />
+            android:exported="false"
+            android:label="Vacation Details"
+            android:parentActivityName=".UI.VacationList"/>
         <activity
             android:name=".UI.ExcursionList"
             android:exported="false"
             android:label="Excursion Options"
-            android:parentActivityName=".UI.VacationList" />
+            android:parentActivityName=".UI.VacationDetails" />
         <activity
             android:name=".UI.VacationList"
             android:exported="false"
