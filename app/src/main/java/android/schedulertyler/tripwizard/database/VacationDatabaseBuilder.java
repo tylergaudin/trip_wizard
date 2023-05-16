@@ -1,8 +1,8 @@
 package android.schedulertyler.tripwizard.database;
 
 import android.content.Context;
-import android.schedulertyler.tripwizard.dao.excursionDAO;
-import android.schedulertyler.tripwizard.dao.vacationDAO;
+import android.schedulertyler.tripwizard.dao.ExcursionDAO;
+import android.schedulertyler.tripwizard.dao.VacationDAO;
 import android.schedulertyler.tripwizard.entities.Excursion;
 import android.schedulertyler.tripwizard.entities.Vacation;
 
@@ -11,18 +11,18 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 @Database(entities = {Vacation.class, Excursion.class}, version=1, exportSchema = false)
-public abstract class vacationDatabaseBuilder extends RoomDatabase {
-    public abstract vacationDAO vacationDAO();
-    public abstract excursionDAO excursionDAO();
+public abstract class VacationDatabaseBuilder extends RoomDatabase {
+    public abstract VacationDAO vacationDAO();
+    public abstract ExcursionDAO excursionDAO();
 
-    private static volatile vacationDatabaseBuilder INSTANCE;
+    private static volatile VacationDatabaseBuilder INSTANCE;
 
-    static vacationDatabaseBuilder getDatabase(final Context context){
+    static VacationDatabaseBuilder getDatabase(final Context context){
         if(INSTANCE==null){
-            synchronized (vacationDatabaseBuilder.class){
+            synchronized (VacationDatabaseBuilder.class){
                 if (INSTANCE==null){
                     INSTANCE= Room.databaseBuilder(context.getApplicationContext(),
-                            vacationDatabaseBuilder.class, "TripWizardDatabase.db")
+                            VacationDatabaseBuilder.class, "TripWizardDatabase.db")
                             .fallbackToDestructiveMigration()
                             .build();
                 }

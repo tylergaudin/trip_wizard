@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.schedulertyler.tripwizard.R;
 
-public class vacationDetails extends AppCompatActivity {
+public class VacationDetails extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

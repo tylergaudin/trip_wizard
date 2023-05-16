@@ -13,18 +13,18 @@
         android:theme="@style/Theme.TripWizard"
         tools:targetApi="31">
         <activity
-            android:name=".UI.excursionDetails"
+            android:name=".UI.ExcursionDetails"
             android:exported="false" />
         <activity
-            android:name=".UI.vacationDetails"
+            android:name=".UI.VacationDetails"
             android:exported="false" />
         <activity
-            android:name=".UI.excursionList"
+            android:name=".UI.ExcursionList"
             android:exported="false"
             android:label="Excursion Options"
-            android:parentActivityName=".UI.vacationList" />
+            android:parentActivityName=".UI.VacationList" />
         <activity
-            android:name=".UI.vacationList"
+            android:name=".UI.VacationList"
             android:exported="false"
             android:label="Vacation Options"
             android:parentActivityName=".UI.MainActivity" />

@@ -1,6 +1,5 @@
 package android.schedulertyler.tripwizard.dao;
 
-import android.schedulertyler.tripwizard.entities.Excursion;
 import android.schedulertyler.tripwizard.entities.Vacation;
 
 import androidx.room.Dao;
@@ -13,13 +12,13 @@ import androidx.room.Update;
 import java.util.List;
 
 @Dao
-public interface excursionDAO {
+public interface VacationDAO {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insert(Excursion excursion);
+    void insert(Vacation vacation);
     @Update
-    void update(Excursion excursion);
+    void update(Vacation vacation);
     @Delete
-    void delete(Excursion excursion);
-    @Query("SELECT * FROM EXCURSIONS ORDER BY excursionID ASC")
-    List<Excursion> getAllExcursions();
+    void delete(Vacation vacation);
+    @Query("SELECT * FROM VACATIONS ORDER BY vacationID ASC")
+    List<Vacation> getAllVacations();
 }
