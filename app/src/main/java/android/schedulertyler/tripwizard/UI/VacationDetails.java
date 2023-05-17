@@ -37,7 +37,6 @@ public class VacationDetails extends AppCompatActivity {
     DatePickerDialog.OnDateSetListener startDate;
     DatePickerDialog.OnDateSetListener endDate;
     final Calendar myCalendar = Calendar.getInstance();
-    final Calendar myCalendarEnd = Calendar.getInstance();
     String title;
     String lodging;
     String start;
@@ -100,13 +99,13 @@ public class VacationDetails extends AppCompatActivity {
                 Date date;
                 String info=editEnd.getText().toString();
                 try {
-                    myCalendarEnd.setTime(sdf.parse(info));
+                    myCalendar.setTime(sdf.parse(info));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
                 new DatePickerDialog(VacationDetails.this,endDate,
-                        myCalendarEnd.get(Calendar.YEAR), myCalendarEnd.get(Calendar.MONTH),
-                        myCalendarEnd.get(Calendar.DAY_OF_MONTH)).show();
+                        myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
         startDate=new DatePickerDialog.OnDateSetListener() {
@@ -147,7 +146,7 @@ public class VacationDetails extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 if (myCalendar.getTime().after(startCompare)) {
-                    editEnd.setText(sdf.format(myCalendarEnd.getTime()));
+                    editEnd.setText(sdf.format(myCalendar.getTime()));
                 } else {
                     /*NotificationCompat.Builder builder = new NotificationCompat.Builder
                             (VacationDetails.this, "DateError");
