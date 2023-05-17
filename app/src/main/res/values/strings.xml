@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Trip Wizard</string>
     <string name="add_sample_data">Add Sample Data</string>
+    <string name="save">Save</string>
+    <string name="excursion_date">Excursion Date</string>
+    <string name="excursion_title">Excursion Title</string>
+    <string name="excursion_name">Excursion name</string>
 </resources>
