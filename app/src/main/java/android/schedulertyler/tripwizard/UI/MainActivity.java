@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
                 Repository repository=new Repository(getApplication());
                 repository.insert(vacation);
                 Excursion excursion=new Excursion(0, "Snorkeling",
-                        "2024-01-23", 1);
+                        "2024-01-23", 0);
                 repository.insert(excursion);
                 return true;
         }

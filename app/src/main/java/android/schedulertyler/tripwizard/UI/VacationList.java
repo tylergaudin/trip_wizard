@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.schedulertyler.tripwizard.R;
 import android.schedulertyler.tripwizard.database.Repository;
+import android.schedulertyler.tripwizard.entities.Excursion;
 import android.schedulertyler.tripwizard.entities.Vacation;
 import android.view.View;
 
@@ -23,12 +24,15 @@ public class VacationList extends AppCompatActivity {
         setContentView(R.layout.activity_vacation_list);
         RecyclerView recyclerView=findViewById(R.id.vacationrecyclerview);
         final VacationAdapter vacationAdapter= new VacationAdapter(this);
+        final ExcursionAdapter excursionAdapter= new ExcursionAdapter(this);
         recyclerView.setAdapter(vacationAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         repository=new Repository(getApplication());
         List<Vacation> allVacations=repository.getAllVacations();
+        List<Excursion> allExcursions=repository.getAllExcursions();
         FloatingActionButton fab = findViewById(R.id.floatingActionButton);
         vacationAdapter.setVacations(allVacations);
+        excursionAdapter.setExcursions(allExcursions);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,10 +48,13 @@ public class VacationList extends AppCompatActivity {
 
         super.onResume();
         List<Vacation> allVacations=repository.getAllVacations();
+        List<Excursion> allExcursions=repository.getAllExcursions();
         RecyclerView recyclerView=findViewById(R.id.vacationrecyclerview);
         final VacationAdapter vacationAdapter = new VacationAdapter(this);
+        final ExcursionAdapter excursionAdapter= new ExcursionAdapter(this);
         recyclerView.setAdapter(vacationAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         vacationAdapter.setVacations(allVacations);
+        excursionAdapter.setExcursions(allExcursions);
     }
 }

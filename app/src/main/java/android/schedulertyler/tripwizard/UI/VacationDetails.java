@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -51,8 +52,10 @@ public class VacationDetails extends AppCompatActivity {
         editEnd = findViewById(R.id.enddate);
         String myFormat = "MM/dd/yy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-        editStart.setText(sdf.format(new Date()));
-        editEnd.setText(sdf.format(new Date()));
+        String sd = sdf.format(new Date());
+        String ed = sdf.format(new Date());
+        editStart.setText(sd);
+        editEnd.setText(ed);
         id = getIntent().getIntExtra("id", -1);
         title = getIntent().getStringExtra("title");
         lodging = getIntent().getStringExtra("lodging");
@@ -70,7 +73,38 @@ public class VacationDetails extends AppCompatActivity {
         for (Excursion e : repository.getAllExcursions()) {
             if (e.getVacationID() == id) filteredExcursions.add(e);
         }
+        excursionAdapter.setExcursions(filteredExcursions);
 
+        editStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Date date;
+                String info=editStart.getText().toString();
+                try {
+                    myCalendarStart.setTime(sdf.parse(info));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                new DatePickerDialog(VacationDetails.this,startDate,
+                        myCalendarStart.get(Calendar.YEAR),myCalendarStart.get(Calendar.MONTH),
+                        myCalendarStart.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+        startDate=new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                myCalendarStart.set(Calendar.YEAR, year);
+                myCalendarStart.set(Calendar.MONTH, month);
+                myCalendarStart.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateEditText();
+            }
+            private void updateEditText() {
+                String myFormat = "MM/dd/yy";
+                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+
+                editStart.setText(sdf.format(myCalendarStart.getTime()));
+            }
+        };
         Button button=findViewById(R.id.savevacation);
         button.setOnClickListener(new View.OnClickListener() {
             @Override

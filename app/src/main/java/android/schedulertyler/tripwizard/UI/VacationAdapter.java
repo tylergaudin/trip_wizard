@@ -61,7 +61,8 @@ public class VacationAdapter extends RecyclerView.Adapter<VacationAdapter.Vacati
             holder.vacationItemView.setText(name);
         }
         else {
-            holder.vacationItemView.setText("No Product Name");
+            String empty = "No Vacation Name";
+            holder.vacationItemView.setText(empty);
         }
     }
 

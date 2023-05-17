@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Trip Wizard</string>
+    <string name="add_sample_data">Add Sample Data</string>
 </resources>
