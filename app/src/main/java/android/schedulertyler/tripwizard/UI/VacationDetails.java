@@ -1,10 +1,13 @@
 package android.schedulertyler.tripwizard.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DatePickerDialog;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.schedulertyler.tripwizard.R;
@@ -15,7 +18,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -33,7 +35,9 @@ public class VacationDetails extends AppCompatActivity {
     EditText editStart;
     EditText editEnd;
     DatePickerDialog.OnDateSetListener startDate;
-    final Calendar myCalendarStart = Calendar.getInstance();
+    DatePickerDialog.OnDateSetListener endDate;
+    final Calendar myCalendar = Calendar.getInstance();
+    final Calendar myCalendarEnd = Calendar.getInstance();
     String title;
     String lodging;
     String start;
@@ -81,28 +85,81 @@ public class VacationDetails extends AppCompatActivity {
                 Date date;
                 String info=editStart.getText().toString();
                 try {
-                    myCalendarStart.setTime(sdf.parse(info));
+                    myCalendar.setTime(sdf.parse(info));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
                 new DatePickerDialog(VacationDetails.this,startDate,
-                        myCalendarStart.get(Calendar.YEAR),myCalendarStart.get(Calendar.MONTH),
-                        myCalendarStart.get(Calendar.DAY_OF_MONTH)).show();
+                        myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+        editEnd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Date date;
+                String info=editEnd.getText().toString();
+                try {
+                    myCalendarEnd.setTime(sdf.parse(info));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                new DatePickerDialog(VacationDetails.this,endDate,
+                        myCalendarEnd.get(Calendar.YEAR), myCalendarEnd.get(Calendar.MONTH),
+                        myCalendarEnd.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
         startDate=new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                myCalendarStart.set(Calendar.YEAR, year);
-                myCalendarStart.set(Calendar.MONTH, month);
-                myCalendarStart.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                updateEditText();
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, month);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateEditTextStart();
             }
-            private void updateEditText() {
+
+            private void updateEditTextStart() {
                 String myFormat = "MM/dd/yy";
                 SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
-                editStart.setText(sdf.format(myCalendarStart.getTime()));
+                editStart.setText(sdf.format(myCalendar.getTime()));
+            }
+        };
+
+        endDate=new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, month);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateEditTextEnd();
+            }
+
+            private void updateEditTextEnd() {
+                String myFormat = "MM/dd/yy";
+                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+
+                String info = editStart.getText().toString();
+                Date startCompare = null;
+                try {
+                    startCompare = sdf.parse(info);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                if (myCalendar.getTime().after(startCompare)) {
+                    editEnd.setText(sdf.format(myCalendarEnd.getTime()));
+                } else {
+                    /*NotificationCompat.Builder builder = new NotificationCompat.Builder
+                            (VacationDetails.this, "DateError");
+                    builder.setContentTitle("Date Issue");
+                    builder.setContentText("Please select a date that is after the Start Date.");
+                    builder.setSmallIcon(R.drawable.ic_launcher_background);
+                    builder.setAutoCancel(true);
+
+                    NotificationManagerCompat managerCompat =
+                            NotificationManagerCompat.from(VacationDetails.this);
+                    managerCompat.notify(1, builder.build());*/
+                }
             }
         };
         Button button=findViewById(R.id.savevacation);
