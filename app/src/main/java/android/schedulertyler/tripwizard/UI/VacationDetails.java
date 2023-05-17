@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.schedulertyler.tripwizard.R;
@@ -18,11 +19,20 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
 public class VacationDetails extends AppCompatActivity {
     EditText editTitle;
     EditText editLodging;
-    DatePicker editStart;
-    DatePicker editEnd;
+    EditText editStart;
+    EditText editEnd;
+    DatePickerDialog.OnDateSetListener startDate;
+    final Calendar myCalendarStart = Calendar.getInstance();
     String title;
     String lodging;
     String start;
@@ -37,8 +47,12 @@ public class VacationDetails extends AppCompatActivity {
         setContentView(R.layout.activity_vacation_details);
         editTitle = findViewById(R.id.vacation_title);
         editLodging = findViewById(R.id.lodging);
-        /*editStart = findViewById(R.id.startdate);
-        editEnd = findViewById(R.id.enddate);*/
+        editStart = findViewById(R.id.startdate);
+        editEnd = findViewById(R.id.enddate);
+        String myFormat = "MM/dd/yy";
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        editStart.setText(sdf.format(new Date()));
+        editEnd.setText(sdf.format(new Date()));
         id = getIntent().getIntExtra("id", -1);
         title = getIntent().getStringExtra("title");
         lodging = getIntent().getStringExtra("lodging");
@@ -52,7 +66,10 @@ public class VacationDetails extends AppCompatActivity {
         final ExcursionAdapter excursionAdapter = new ExcursionAdapter(this);
         recyclerView.setAdapter(excursionAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        excursionAdapter.setExcursions(repository.getAllExcursions());
+        List<Excursion> filteredExcursions = new ArrayList<>();
+        for (Excursion e : repository.getAllExcursions()) {
+            if (e.getVacationID() == id) filteredExcursions.add(e);
+        }
 
         Button button=findViewById(R.id.savevacation);
         button.setOnClickListener(new View.OnClickListener() {
