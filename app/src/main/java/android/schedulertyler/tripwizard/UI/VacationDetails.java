@@ -168,13 +168,15 @@ public class VacationDetails extends AppCompatActivity {
             public void onClick(View v) {
                 if (id==-1){
                     vacation= new Vacation(0, editTitle.getText().toString(),
-                            editLodging.getText().toString(), "date1", "date2");
+                            editLodging.getText().toString(), editStart.getText().toString(),
+                            editEnd.getText().toString());
                     repository.insert(vacation);
 
                 }
                 else{
                     vacation= new Vacation(id, editTitle.getText().toString(),
-                            editLodging.getText().toString(), "date1", "date2");
+                            editLodging.getText().toString(), editStart.getText().toString(),
+                            editEnd.getText().toString());
                     repository.update(vacation);
 
                 }
