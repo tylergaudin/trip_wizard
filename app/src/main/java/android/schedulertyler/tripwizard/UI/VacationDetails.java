@@ -140,27 +140,7 @@ public class VacationDetails extends AppCompatActivity {
                 String myFormat = "MM/dd/yy";
                 SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
-                String info = editStart.getText().toString();
-                Date startCompare = null;
-                try {
-                    startCompare = sdf.parse(info);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                if (myCalendar.getTime().after(startCompare)) {
-                    editEnd.setText(sdf.format(myCalendar.getTime()));
-                } else {
-                    /*NotificationCompat.Builder builder = new NotificationCompat.Builder
-                            (VacationDetails.this, "DateError");
-                    builder.setContentTitle("Date Issue");
-                    builder.setContentText("Please select a date that is after the Start Date.");
-                    builder.setSmallIcon(R.drawable.ic_launcher_background);
-                    builder.setAutoCancel(true);
-
-                    NotificationManagerCompat managerCompat =
-                            NotificationManagerCompat.from(VacationDetails.this);
-                    managerCompat.notify(1, builder.build());*/
-                }
+                editEnd.setText(sdf.format(myCalendar.getTime()));
             }
         };
         Button button=findViewById(R.id.savevacation);

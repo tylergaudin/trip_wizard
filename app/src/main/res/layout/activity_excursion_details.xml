@@ -44,6 +44,7 @@
                     android:id="@+id/date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:inputType="none"
                     android:hint="Choose Excursion Date"/>
             </LinearLayout>
             <androidx.appcompat.widget.LinearLayoutCompat

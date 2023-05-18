@@ -10,7 +10,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@Database(entities = {Vacation.class, Excursion.class}, version=1, exportSchema = false)
+@Database(entities = {Vacation.class, Excursion.class}, version=2, exportSchema = false)
 public abstract class VacationDatabaseBuilder extends RoomDatabase {
     public abstract VacationDAO vacationDAO();
     public abstract ExcursionDAO excursionDAO();

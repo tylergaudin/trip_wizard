@@ -49,15 +49,15 @@ public class ExcursionDetails extends AppCompatActivity {
         editDate = findViewById(R.id.date);
         String myFormat = "MM/dd/yy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-        //String d = sdf.format(new Date());
+        String d = sdf.format(new Date());
         id = getIntent().getIntExtra("id", -1);
         title = getIntent().getStringExtra("title");
         date = getIntent().getStringExtra("date");
-        editDate.setText(date);
+        editDate.setText(d);
         vacationId = getIntent().getIntExtra("vacation_id", -1);
         editTitle.setText(title);
         repository = new Repository(getApplication());
-        RecyclerView recyclerView = findViewById(R.id.excursionrecyclerview);
+        /*RecyclerView recyclerView = findViewById(R.id.excursionrecyclerview);
         repository = new Repository(getApplication());
         final ExcursionAdapter excursionAdapter = new ExcursionAdapter(this);
         recyclerView.setAdapter(excursionAdapter);
@@ -66,13 +66,14 @@ public class ExcursionDetails extends AppCompatActivity {
         for (Excursion e : repository.getAllExcursions()) {
             if (e.getVacationID() == id) filteredExcursions.add(e);
         }
-        excursionAdapter.setExcursions(filteredExcursions);
+        excursionAdapter.setExcursions(filteredExcursions);*/
 
         editDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Date date;
                 String info = editDate.getText().toString();
+                if (info.equals(""))info= String.valueOf(new Date());
                 try {
                     myCalendar.setTime(sdf.parse(info));
                 } catch (ParseException e) {

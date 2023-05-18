@@ -19,11 +19,12 @@
 
     <ScrollView
         android:id="@+id/scrollView"
-        android:layout_width="411dp"
-        android:layout_height="233dp"
+        android:layout_width="405dp"
+        android:layout_height="286dp"
         android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="0dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -61,7 +62,7 @@
                 <EditText
                     android:id="@+id/lodging"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="64dp"
                     android:hint="Chosen Lodging" />
 
             </LinearLayout>
@@ -78,9 +79,10 @@
 
                 <EditText
                     android:id="@+id/startdate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="Choose Start Date"/>
+                    android:layout_width="142dp"
+                    android:layout_height="58dp"
+                    android:inputType="none"
+                    android:hint="05/18/2023" />
 
             </LinearLayout>
 
@@ -96,9 +98,10 @@
 
                 <EditText
                     android:id="@+id/enddate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="Choose Checkout Date"/>
+                    android:layout_width="142dp"
+                    android:layout_height="62dp"
+                    android:inputType="none"
+                    android:hint="05/18/2023" />
             </LinearLayout>
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -119,19 +122,8 @@
         android:id="@+id/excursionrecyclerview"
         android:layout_width="409dp"
         android:layout_height="373dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
-
-    <EditText
-        android:id="@+id/editTextText"
-        android:layout_width="97dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="36dp"
-        android:layout_marginBottom="43dp"
-        android:ems="10"
-        android:inputType="text"
-        android:text="Excursions"
-        app:layout_constraintBottom_toTopOf="@+id/excursionrecyclerview"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView" />
+        app:layout_constraintTop_toBottomOf="@id/scrollView"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="301dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
