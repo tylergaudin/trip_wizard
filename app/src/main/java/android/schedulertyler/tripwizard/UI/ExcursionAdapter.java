@@ -67,8 +67,10 @@ public class ExcursionAdapter extends RecyclerView.Adapter<ExcursionAdapter.Excu
             holder.excursionItemView.setText(title);
             holder.excursionItemView2.setText(date);
         } else {
-            String empty = "No Vacation Name";
+            String empty = "No Excursion Name";
             holder.excursionItemView.setText(empty);
+            String empty2 = "No Vacation ID";
+            holder.excursionItemView.setText(empty2);
         }
     }
 

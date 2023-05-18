@@ -14,6 +14,8 @@ import android.schedulertyler.tripwizard.R;
 import android.schedulertyler.tripwizard.database.Repository;
 import android.schedulertyler.tripwizard.entities.Excursion;
 import android.schedulertyler.tripwizard.entities.Vacation;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -55,10 +57,8 @@ public class VacationDetails extends AppCompatActivity {
         editEnd = findViewById(R.id.enddate);
         String myFormat = "MM/dd/yy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-        String sd = sdf.format(new Date());
-        String ed = sdf.format(new Date());
-        editStart.setText(sd);
-        editEnd.setText(ed);
+        /*String sd = sdf.format(new Date());
+        String ed = sdf.format(new Date());*/
         id = getIntent().getIntExtra("id", -1);
         title = getIntent().getStringExtra("title");
         lodging = getIntent().getStringExtra("lodging");
@@ -66,6 +66,8 @@ public class VacationDetails extends AppCompatActivity {
         end = getIntent().getStringExtra("end_date");
         editTitle.setText(title);
         editLodging.setText(lodging);
+        editStart.setText(start);
+        editEnd.setText(end);
         repository= new Repository(getApplication());
         RecyclerView recyclerView = findViewById(R.id.excursionrecyclerview);
         repository = new Repository(getApplication());
@@ -186,9 +188,69 @@ public class VacationDetails extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(VacationDetails.this, ExcursionList.class);
+                Intent intent = new Intent
+                        (VacationDetails.this, ExcursionDetails.class);
+                intent.putExtra("vacation_id", id);
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+
+        super.onResume();
+        editTitle = findViewById(R.id.vacation_title);
+        editLodging = findViewById(R.id.lodging);
+        editStart = findViewById(R.id.startdate);
+        editEnd = findViewById(R.id.enddate);
+        String myFormat = "MM/dd/yy";
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        String sd = sdf.format(new Date());
+        String ed = sdf.format(new Date());
+        editStart.setText(sd);
+        editEnd.setText(ed);
+        id = getIntent().getIntExtra("id", -1);
+        title = getIntent().getStringExtra("title");
+        lodging = getIntent().getStringExtra("lodging");
+        start = getIntent().getStringExtra("start_date");
+        end = getIntent().getStringExtra("end_date");
+        editTitle.setText(title);
+        editLodging.setText(lodging);
+        repository= new Repository(getApplication());
+        RecyclerView recyclerView = findViewById(R.id.excursionrecyclerview);
+        repository = new Repository(getApplication());
+        final ExcursionAdapter excursionAdapter = new ExcursionAdapter(this);
+        recyclerView.setAdapter(excursionAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        List<Excursion> filteredExcursions = new ArrayList<>();
+        for (Excursion e : repository.getAllExcursions()) {
+            if (e.getVacationID() == id) filteredExcursions.add(e);
+        }
+        excursionAdapter.setExcursions(filteredExcursions);
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_excursion_details, menu);
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.share) {
+            Intent sendIntent=new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            String t=editTitle.getText().toString();
+            String l=editLodging.getText().toString();
+            String s=editStart.getText().toString();
+            String x=editEnd.getText().toString();
+            sendIntent.putExtra(Intent.EXTRA_TEXT, "Vacation Name:"+t+
+                    " Lodging: "+l+" Start Date: "+s+" End Date: "+x);
+            sendIntent.putExtra(Intent.EXTRA_TITLE, t);
+            sendIntent.setType("text/plain");
+            Intent shareIntent=Intent.createChooser(sendIntent, null);
+            startActivity(shareIntent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

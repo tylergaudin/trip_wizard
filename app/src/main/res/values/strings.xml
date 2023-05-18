@@ -5,4 +5,8 @@
     <string name="excursion_date">Excursion Date</string>
     <string name="excursion_title">Excursion Title</string>
     <string name="excursion_name">Excursion name</string>
+    <string name="notify_start">Notify Start</string>
+    <string name="notify_end">Notify End</string>
+    <string name="share">Share</string>
+    <string name="sample_data">Sample Data</string>
 </resources>
