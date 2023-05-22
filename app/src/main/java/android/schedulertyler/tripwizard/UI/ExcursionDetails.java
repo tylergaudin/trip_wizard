@@ -17,10 +17,13 @@ import android.schedulertyler.tripwizard.entities.Vacation;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ScrollView;
+import android.widget.Spinner;
 
 
 import java.text.ParseException;
@@ -60,6 +63,20 @@ public class ExcursionDetails extends AppCompatActivity {
         vacationId = getIntent().getIntExtra("vacation_id", -1);
         editTitle.setText(title);
         repository = new Repository(getApplication());
+        Spinner spinner = findViewById(R.id.spinner);
+        ArrayAdapter<Vacation> vacationArrayAdapter=new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,repository.getAllVacations());
+        spinner.setAdapter(vacationArrayAdapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         /*RecyclerView recyclerView = findViewById(R.id.excursionrecyclerview);
         repository = new Repository(getApplication());
         final ExcursionAdapter excursionAdapter = new ExcursionAdapter(this);
@@ -108,6 +125,7 @@ public class ExcursionDetails extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Vacation vacation = (Vacation) spinner.getSelectedItem();
                 if (id == -1) {
                     excursion = new Excursion(0, editTitle.getText().toString(),
                             editDate.getText().toString(), vacationId);
@@ -116,7 +134,7 @@ public class ExcursionDetails extends AppCompatActivity {
 
                 } else {
                     excursion = new Excursion(id, editTitle.getText().toString(),
-                            editDate.getText().toString(), vacationId);
+                            editDate.getText().toString(), vacation.getVacationID());
                     repository.update(excursion);
                     finish();
                 }

@@ -65,4 +65,10 @@ public class Vacation {
     public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
+
+    @Override
+    public String toString() {
+        return  vacationID + " " + vacationTitle + " " +  lodging  + " " +
+                startDate  + " " + endDate;
+    }
 }
