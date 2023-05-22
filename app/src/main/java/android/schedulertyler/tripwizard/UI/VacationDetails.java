@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -45,6 +46,8 @@ public class VacationDetails extends AppCompatActivity {
     String end;
     int id;
     Vacation vacation;
+    Vacation currentVacation;
+    int numExcursions;
     Repository repository;
 
     @Override
@@ -68,7 +71,7 @@ public class VacationDetails extends AppCompatActivity {
         editLodging.setText(lodging);
         editStart.setText(start);
         editEnd.setText(end);
-        repository= new Repository(getApplication());
+        repository = new Repository(getApplication());
         RecyclerView recyclerView = findViewById(R.id.excursionrecyclerview);
         repository = new Repository(getApplication());
         final ExcursionAdapter excursionAdapter = new ExcursionAdapter(this);
@@ -84,13 +87,13 @@ public class VacationDetails extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Date date;
-                String info=editStart.getText().toString();
+                String info = editStart.getText().toString();
                 try {
                     myCalendar.setTime(sdf.parse(info));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                new DatePickerDialog(VacationDetails.this,startDate,
+                new DatePickerDialog(VacationDetails.this, startDate,
                         myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
@@ -99,18 +102,18 @@ public class VacationDetails extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Date date;
-                String info=editEnd.getText().toString();
+                String info = editEnd.getText().toString();
                 try {
                     myCalendar.setTime(sdf.parse(info));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                new DatePickerDialog(VacationDetails.this,endDate,
+                new DatePickerDialog(VacationDetails.this, endDate,
                         myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
-        startDate=new DatePickerDialog.OnDateSetListener() {
+        startDate = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 myCalendar.set(Calendar.YEAR, year);
@@ -127,7 +130,7 @@ public class VacationDetails extends AppCompatActivity {
             }
         };
 
-        endDate=new DatePickerDialog.OnDateSetListener() {
+        endDate = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 myCalendar.set(Calendar.YEAR, year);
@@ -143,19 +146,18 @@ public class VacationDetails extends AppCompatActivity {
                 editEnd.setText(sdf.format(myCalendar.getTime()));
             }
         };
-        Button button=findViewById(R.id.savevacation);
+        Button button = findViewById(R.id.savevacation);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (id==-1){
-                    vacation= new Vacation(0, editTitle.getText().toString(),
+                if (id == -1) {
+                    vacation = new Vacation(0, editTitle.getText().toString(),
                             editLodging.getText().toString(), editStart.getText().toString(),
                             editEnd.getText().toString());
                     repository.insert(vacation);
 
-                }
-                else{
-                    vacation= new Vacation(id, editTitle.getText().toString(),
+                } else {
+                    vacation = new Vacation(id, editTitle.getText().toString(),
                             editLodging.getText().toString(), editStart.getText().toString(),
                             editEnd.getText().toString());
                     repository.update(vacation);
@@ -197,7 +199,7 @@ public class VacationDetails extends AppCompatActivity {
         end = getIntent().getStringExtra("end_date");
         editTitle.setText(title);
         editLodging.setText(lodging);
-        repository= new Repository(getApplication());
+        repository = new Repository(getApplication());
         RecyclerView recyclerView = findViewById(R.id.excursionrecyclerview);
         repository = new Repository(getApplication());
         final ExcursionAdapter excursionAdapter = new ExcursionAdapter(this);
@@ -211,24 +213,30 @@ public class VacationDetails extends AppCompatActivity {
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_excursion_details, menu);
+        getMenuInflater().inflate(R.menu.deletevacation, menu);
         return true;
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.share) {
-            Intent sendIntent=new Intent();
-            sendIntent.setAction(Intent.ACTION_SEND);
-            String t=editTitle.getText().toString();
-            String l=editLodging.getText().toString();
-            String s=editStart.getText().toString();
-            String x=editEnd.getText().toString();
-            sendIntent.putExtra(Intent.EXTRA_TEXT, "Vacation Name:"+t+
-                    " Lodging: "+l+" Start Date: "+s+" End Date: "+x);
-            sendIntent.putExtra(Intent.EXTRA_TITLE, t);
-            sendIntent.setType("text/plain");
-            Intent shareIntent=Intent.createChooser(sendIntent, null);
-            startActivity(shareIntent);
+        if (item.getItemId() == R.id.deletevacation) {
+            for (Vacation vac : repository.getAllVacations()) {
+                if (vac.getVacationID() == id) currentVacation = vac;
+            }
+
+            numExcursions = 0;
+            for (Excursion excursion : repository.getAllExcursions()) {
+                if (excursion.getVacationID() == id) ++numExcursions;
+            }
+
+            if (numExcursions == 0) {
+                repository.delete(currentVacation);
+                Toast.makeText(VacationDetails.this, currentVacation.getVacationTitle()
+                        + " was deleted.", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(VacationDetails.this,
+                        "Can't delete a vacation with excursions scheduled.",
+                        Toast.LENGTH_LONG).show();
+            }
             return true;
         }
         return super.onOptionsItemSelected(item);
