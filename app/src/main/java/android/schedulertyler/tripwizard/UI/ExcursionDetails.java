@@ -4,7 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.schedulertyler.tripwizard.R;
@@ -137,6 +140,25 @@ public class ExcursionDetails extends AppCompatActivity {
                 sendIntent.setType("text/plain");
                 Intent shareIntent=Intent.createChooser(sendIntent, null);
                 startActivity(shareIntent);
+                return true;
+            }
+            else if (item.getItemId() == R.id.notify_start2){
+                String dateFromScreen=editDate.getText().toString();
+                String myFormat= "MM/dd/yy";
+                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+                Date myDate=null;
+                try {
+                    myDate=sdf.parse(dateFromScreen);
+                }
+                catch (ParseException e){
+                    e.printStackTrace();
+                }
+                Long trigger =myDate.getTime();
+                Intent intent = new Intent(ExcursionDetails.this, MyReceiver.class);
+                intent.putExtra("key", myDate+" should trigger.");
+                PendingIntent sender = PendingIntent.getBroadcast(ExcursionDetails.this, ++MainActivity.numAlert,intent, PendingIntent.FLAG_IMMUTABLE);
+                AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
                 return true;
             }
             return super.onOptionsItemSelected(item);
