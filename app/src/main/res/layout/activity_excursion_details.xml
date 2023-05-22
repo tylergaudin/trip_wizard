@@ -57,16 +57,18 @@
                     android:id="@+id/saveexcursion"
                     android:text="@string/save"/>
             </androidx.appcompat.widget.LinearLayoutCompat>
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <Spinner
+                    android:id="@+id/spinner"
+                    android:layout_width="409dp"
+                    android:layout_height="wrap_content"
+                    tools:layout_editor_absoluteX="1dp"
+                    tools:layout_editor_absoluteY="369dp" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
         </LinearLayout>
-    </ScrollView>
 
-    <androidx.recyclerview.widget.RecyclerView
-        app:layout_constraintTop_toBottomOf="@id/scrollView"
-        app:layout_constraintRight_toRightOf="parent"
-        android:id="@+id/excursionrecyclerview"
-        android:layout_width="409dp"
-        android:layout_height="373dp"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="301dp" />
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
