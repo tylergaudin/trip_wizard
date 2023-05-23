@@ -24,6 +24,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 
 import java.text.ParseException;
@@ -45,6 +46,7 @@ public class ExcursionDetails extends AppCompatActivity {
     int vacationId;
     int id;
     Excursion excursion;
+    Excursion currentExcursion;
     Repository repository;
 
     @Override
@@ -110,13 +112,30 @@ public class ExcursionDetails extends AppCompatActivity {
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH, month);
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                updateEditText();
+                try {
+                    updateEditText();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
 
-            private void updateEditText() {
+            private void updateEditText() throws ParseException {
                 String myFormat = "MM/dd/yy";
                 SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-
+                Vacation currentVacation = (Vacation) spinner.getSelectedItem();
+                Date start = new Date();
+                Date end = new Date();
+                for (Vacation vacation : repository.getAllVacations()){
+                    if (currentVacation.getVacationID() == vacation.getVacationID()){
+                        start = sdf.parse(vacation.getStartDate());
+                        end = sdf.parse(vacation.getEndDate());
+                    }
+                }
+                if (myCalendar.getTime().before(start) || myCalendar.getTime().after(end)){
+                    Toast.makeText(ExcursionDetails.this,
+                            "The Excursion must be scheduled during the vacation.",
+                            Toast.LENGTH_LONG).show();
+                }
                 editDate.setText(sdf.format(myCalendar.getTime()));
             }
         };
@@ -177,6 +196,15 @@ public class ExcursionDetails extends AppCompatActivity {
                 PendingIntent sender = PendingIntent.getBroadcast(ExcursionDetails.this, ++MainActivity.numAlert,intent, PendingIntent.FLAG_IMMUTABLE);
                 AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
                 alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
+                return true;
+            }
+            if (item.getItemId() == R.id.delete_vacation) {
+                for (Excursion exc : repository.getAllExcursions()) {
+                    if (exc.getExcursionID() == id) currentExcursion = exc;
+                }
+                repository.delete(currentExcursion);
+                Toast.makeText(ExcursionDetails.this, currentExcursion.getExcursionTitle()
+                        + " was deleted.", Toast.LENGTH_LONG).show();
                 return true;
             }
             return super.onOptionsItemSelected(item);

@@ -12,4 +12,5 @@
     <string name="channel_name">TripChannel</string>
     <string name="channel_description">Notifications for Trip Wizard App</string>
     <string name="delete_vacation">Delete Vacation</string>
+    <string name="delete_excursion">Delete Excursion</string>
 </resources>
