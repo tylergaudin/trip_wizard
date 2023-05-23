@@ -13,4 +13,7 @@
     <string name="channel_description">Notifications for Trip Wizard App</string>
     <string name="delete_vacation">Delete Vacation</string>
     <string name="delete_excursion">Delete Excursion</string>
+    <string name="notify_start_date">Notify Start Date</string>
+    <string name="lodging">Lodging</string>
+    <string name="chosen_lodging">Chosen Lodging</string>
 </resources>

@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -35,8 +36,8 @@ import java.util.Locale;
 public class VacationDetails extends AppCompatActivity {
     EditText editTitle;
     EditText editLodging;
-    EditText editStart;
-    EditText editEnd;
+    TextView editStart;
+    TextView editEnd;
     DatePickerDialog.OnDateSetListener startDate;
     DatePickerDialog.OnDateSetListener endDate;
     final Calendar myCalendar = Calendar.getInstance();
@@ -68,8 +69,16 @@ public class VacationDetails extends AppCompatActivity {
         lodging = getIntent().getStringExtra("lodging");
         start = getIntent().getStringExtra("start_date");
         end = getIntent().getStringExtra("end_date");
-        editTitle.setText(sd);
-        editLodging.setText(ed);
+
+        if (start == null){
+            start = sd;
+        }
+
+        if (end == null){
+            end = ed;
+        }
+        editTitle.setText(start);
+        editLodging.setText(end);
         /*editStart.setText(sdf.format((start));
         editEnd.setText(sdf.format(end));*/
         repository = new Repository(getApplication());
@@ -213,13 +222,21 @@ public class VacationDetails extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         String sd = sdf.format(new Date());
         String ed = sdf.format(new Date());
-        editStart.setText(sd);
-        editEnd.setText(ed);
         id = getIntent().getIntExtra("id", -1);
         title = getIntent().getStringExtra("title");
         lodging = getIntent().getStringExtra("lodging");
         start = getIntent().getStringExtra("start_date");
         end = getIntent().getStringExtra("end_date");
+        if (start == null){
+            start = sd;
+        }
+
+        if (end == null){
+            end = ed;
+        }
+
+        editStart.setText(start);
+        editEnd.setText(end);
         editTitle.setText(title);
         editLodging.setText(lodging);
         repository = new Repository(getApplication());
@@ -290,7 +307,7 @@ public class VacationDetails extends AppCompatActivity {
             }
             Long trigger =myDate.getTime();
             Intent intent = new Intent(VacationDetails.this, MyReceiver.class);
-            intent.putExtra("key", "Your vacation starts today.");
+            intent.putExtra("key", "Your "+ title+ " vacation starts today.");
             PendingIntent sender = PendingIntent.getBroadcast
                     (VacationDetails.this,
                             ++MainActivity.numAlert,intent, PendingIntent.FLAG_IMMUTABLE);
@@ -311,7 +328,7 @@ public class VacationDetails extends AppCompatActivity {
             }
             Long trigger =myDate.getTime();
             Intent intent = new Intent(VacationDetails.this, MyReceiver.class);
-            intent.putExtra("key", "Your vacation ends today.");
+            intent.putExtra("key", "Your "+ title+ " vacation ends today.");
             PendingIntent sender = PendingIntent.getBroadcast
                     (VacationDetails.this,
                             ++MainActivity.numAlert,intent, PendingIntent.FLAG_IMMUTABLE);

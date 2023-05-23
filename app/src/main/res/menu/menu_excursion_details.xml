@@ -6,8 +6,8 @@
         android:id="@+id/share"
         android:title="@string/share" />
     <item
-        android:id="@+id/notify_start2"
-        android:title="@string/notify_start" />
+        android:id="@+id/notify_excursion"
+        android:title="@string/notify_start_date" />
     <item
         android:id="@+id/delete_excursion"
         android:title="@string/delete_excursion" />

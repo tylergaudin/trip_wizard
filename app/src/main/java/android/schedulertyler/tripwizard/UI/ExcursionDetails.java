@@ -1,8 +1,6 @@
 package android.schedulertyler.tripwizard.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
@@ -22,17 +20,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 public class ExcursionDetails extends AppCompatActivity {
@@ -179,10 +174,11 @@ public class ExcursionDetails extends AppCompatActivity {
                 startActivity(shareIntent);
                 return true;
             }
-            else if (item.getItemId() == R.id.notify_start2){
+            if (item.getItemId() == R.id.notify_excursion){
                 String dateFromScreen=editDate.getText().toString();
                 String myFormat= "MM/dd/yy";
                 SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+                String note = editTitle.getText().toString();
                 Date myDate=null;
                 try {
                     myDate=sdf.parse(dateFromScreen);
@@ -191,8 +187,9 @@ public class ExcursionDetails extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 Long trigger =myDate.getTime();
+                String message =  "Your "+note + " is today.";
                 Intent intent = new Intent(ExcursionDetails.this, MyReceiver.class);
-                intent.putExtra("key", myDate+" should trigger.");
+                intent.putExtra("key", message);
                 PendingIntent sender = PendingIntent.getBroadcast(ExcursionDetails.this, ++MainActivity.numAlert,intent, PendingIntent.FLAG_IMMUTABLE);
                 AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
                 alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
