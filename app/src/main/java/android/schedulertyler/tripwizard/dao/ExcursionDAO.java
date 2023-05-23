@@ -15,10 +15,13 @@ import java.util.List;
 public interface ExcursionDAO {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insert(Excursion excursion);
+
     @Update
     void update(Excursion excursion);
+
     @Delete
     void delete(Excursion excursion);
+
     @Query("SELECT * FROM EXCURSIONS ORDER BY excursionID ASC")
     List<Excursion> getAllExcursions();
 }

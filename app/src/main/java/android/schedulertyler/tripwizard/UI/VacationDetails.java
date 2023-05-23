@@ -41,7 +41,6 @@ public class VacationDetails extends AppCompatActivity {
     DatePickerDialog.OnDateSetListener startDate;
     DatePickerDialog.OnDateSetListener endDate;
     final Calendar myCalendar = Calendar.getInstance();
-    final Calendar myCalendar2 = Calendar.getInstance();
     String title;
     String lodging;
     String start;
@@ -70,17 +69,15 @@ public class VacationDetails extends AppCompatActivity {
         start = getIntent().getStringExtra("start_date");
         end = getIntent().getStringExtra("end_date");
 
-        if (start == null){
+        if (start == null) {
             start = sd;
         }
 
-        if (end == null){
+        if (end == null) {
             end = ed;
         }
         editTitle.setText(start);
         editLodging.setText(end);
-        /*editStart.setText(sdf.format((start));
-        editEnd.setText(sdf.format(end));*/
         repository = new Repository(getApplication());
         RecyclerView recyclerView = findViewById(R.id.excursionrecyclerview);
         repository = new Repository(getApplication());
@@ -227,11 +224,11 @@ public class VacationDetails extends AppCompatActivity {
         lodging = getIntent().getStringExtra("lodging");
         start = getIntent().getStringExtra("start_date");
         end = getIntent().getStringExtra("end_date");
-        if (start == null){
+        if (start == null) {
             start = sd;
         }
 
-        if (end == null){
+        if (end == null) {
             end = ed;
         }
 
@@ -278,60 +275,55 @@ public class VacationDetails extends AppCompatActivity {
                         Toast.LENGTH_LONG).show();
             }
             return true;
-        }
-        else if (item.getItemId() == R.id.share) {
-            Intent sendIntent=new Intent();
+        } else if (item.getItemId() == R.id.share) {
+            Intent sendIntent = new Intent();
             sendIntent.setAction(Intent.ACTION_SEND);
-            String t=editTitle.getText().toString();
-            String h=editLodging.getText().toString();
-            String s=editStart.getText().toString();
-            String e=editEnd.getText().toString();
-            sendIntent.putExtra(Intent.EXTRA_TEXT, "Vacation Name: "+t+ " Lodging: "+h+
-                    " From "+s+" to "+e);
+            String t = editTitle.getText().toString();
+            String h = editLodging.getText().toString();
+            String s = editStart.getText().toString();
+            String e = editEnd.getText().toString();
+            sendIntent.putExtra(Intent.EXTRA_TEXT, "Vacation Name: " + t + " Lodging: " + h +
+                    " From " + s + " to " + e);
             sendIntent.putExtra(Intent.EXTRA_TITLE, t);
             sendIntent.setType("text/plain");
-            Intent shareIntent=Intent.createChooser(sendIntent, null);
+            Intent shareIntent = Intent.createChooser(sendIntent, null);
             startActivity(shareIntent);
             return true;
-        }
-        else if (item.getItemId() == R.id.notify_start){
-            String dateFromScreen=editStart.getText().toString();
-            String myFormat= "MM/dd/yy";
+        } else if (item.getItemId() == R.id.notify_start) {
+            String dateFromScreen = editStart.getText().toString();
+            String myFormat = "MM/dd/yy";
             SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-            Date myDate=null;
+            Date myDate = null;
             try {
-                myDate=sdf.parse(dateFromScreen);
-            }
-            catch (ParseException e){
+                myDate = sdf.parse(dateFromScreen);
+            } catch (ParseException e) {
                 e.printStackTrace();
             }
-            Long trigger =myDate.getTime();
+            Long trigger = myDate.getTime();
             Intent intent = new Intent(VacationDetails.this, MyReceiver.class);
-            intent.putExtra("key", "Your "+ title+ " vacation starts today.");
+            intent.putExtra("key", "Your " + title + " vacation starts today.");
             PendingIntent sender = PendingIntent.getBroadcast
                     (VacationDetails.this,
-                            ++MainActivity.numAlert,intent, PendingIntent.FLAG_IMMUTABLE);
+                            ++MainActivity.numAlert, intent, PendingIntent.FLAG_IMMUTABLE);
             AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
             alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
             return true;
-        }
-        else if (item.getItemId() == R.id.notify_end){
-            String dateFromScreen=editEnd.getText().toString();
-            String myFormat= "MM/dd/yy";
+        } else if (item.getItemId() == R.id.notify_end) {
+            String dateFromScreen = editEnd.getText().toString();
+            String myFormat = "MM/dd/yy";
             SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-            Date myDate=null;
+            Date myDate = null;
             try {
-                myDate=sdf.parse(dateFromScreen);
-            }
-            catch (ParseException e){
+                myDate = sdf.parse(dateFromScreen);
+            } catch (ParseException e) {
                 e.printStackTrace();
             }
-            Long trigger =myDate.getTime();
+            Long trigger = myDate.getTime();
             Intent intent = new Intent(VacationDetails.this, MyReceiver.class);
-            intent.putExtra("key", "Your "+ title+ " vacation ends today.");
+            intent.putExtra("key", "Your " + title + " vacation ends today.");
             PendingIntent sender = PendingIntent.getBroadcast
                     (VacationDetails.this,
-                            ++MainActivity.numAlert,intent, PendingIntent.FLAG_IMMUTABLE);
+                            ++MainActivity.numAlert, intent, PendingIntent.FLAG_IMMUTABLE);
             AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
             alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
             return true;

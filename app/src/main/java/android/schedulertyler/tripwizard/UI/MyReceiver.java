@@ -25,9 +25,6 @@ public class MyReceiver extends BroadcastReceiver {
                 .setContentTitle("Notification Test").build();
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(notificationID++, n);
-        // TODO: This method is called when the BroadcastReceiver is receiving
-        // an Intent broadcast.
-        // throw new UnsupportedOperationException("Not yet implemented");
     }
 
     private void createNotificationChannel(Context context, String CHANNEL_ID) {

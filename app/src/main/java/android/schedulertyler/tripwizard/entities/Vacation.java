@@ -68,7 +68,7 @@ public class Vacation {
 
     @Override
     public String toString() {
-        return  vacationID + " " + vacationTitle + " " +  lodging  + " " +
-                startDate  + " " + endDate;
+        return vacationID + " " + vacationTitle + " " + lodging + " " +
+                startDate + " " + endDate;
     }
 }

@@ -16,4 +16,6 @@
     <string name="notify_start_date">Notify Start Date</string>
     <string name="lodging">Lodging</string>
     <string name="chosen_lodging">Chosen Lodging</string>
+    <string name="enter">Enter</string>
+    <string name="trip_wizard">Trip Wizard</string>
 </resources>

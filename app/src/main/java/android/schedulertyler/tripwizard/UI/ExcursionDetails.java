@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -33,7 +34,7 @@ import java.util.Locale;
 public class ExcursionDetails extends AppCompatActivity {
 
     EditText editTitle;
-    EditText editDate;
+    TextView editDate;
     DatePickerDialog.OnDateSetListener excursionDate;
     final Calendar myCalendar = Calendar.getInstance();
     String title;
@@ -61,7 +62,7 @@ public class ExcursionDetails extends AppCompatActivity {
         editTitle.setText(title);
         repository = new Repository(getApplication());
         Spinner spinner = findViewById(R.id.spinner);
-        ArrayAdapter<Vacation> vacationArrayAdapter=new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,repository.getAllVacations());
+        ArrayAdapter<Vacation> vacationArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, repository.getAllVacations());
         spinner.setAdapter(vacationArrayAdapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -74,23 +75,14 @@ public class ExcursionDetails extends AppCompatActivity {
 
             }
         });
-        /*RecyclerView recyclerView = findViewById(R.id.excursionrecyclerview);
-        repository = new Repository(getApplication());
-        final ExcursionAdapter excursionAdapter = new ExcursionAdapter(this);
-        recyclerView.setAdapter(excursionAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        List<Excursion> filteredExcursions = new ArrayList<>();
-        for (Excursion e : repository.getAllExcursions()) {
-            if (e.getVacationID() == id) filteredExcursions.add(e);
-        }
-        excursionAdapter.setExcursions(filteredExcursions);*/
+
 
         editDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Date date;
                 String info = editDate.getText().toString();
-                if (info.equals(""))info= String.valueOf(new Date());
+                if (info.equals("")) info = String.valueOf(new Date());
                 try {
                     myCalendar.setTime(sdf.parse(info));
                 } catch (ParseException e) {
@@ -120,13 +112,13 @@ public class ExcursionDetails extends AppCompatActivity {
                 Vacation currentVacation = (Vacation) spinner.getSelectedItem();
                 Date start = new Date();
                 Date end = new Date();
-                for (Vacation vacation : repository.getAllVacations()){
-                    if (currentVacation.getVacationID() == vacation.getVacationID()){
+                for (Vacation vacation : repository.getAllVacations()) {
+                    if (currentVacation.getVacationID() == vacation.getVacationID()) {
                         start = sdf.parse(vacation.getStartDate());
                         end = sdf.parse(vacation.getEndDate());
                     }
                 }
-                if (myCalendar.getTime().before(start) || myCalendar.getTime().after(end)){
+                if (myCalendar.getTime().before(start) || myCalendar.getTime().after(end)) {
                     Toast.makeText(ExcursionDetails.this,
                             "The Excursion must be scheduled during the vacation.",
                             Toast.LENGTH_LONG).show();
@@ -155,55 +147,55 @@ public class ExcursionDetails extends AppCompatActivity {
             }
         });
     }
-        public boolean onCreateOptionsMenu(Menu menu) {
-            getMenuInflater().inflate(R.menu.menu_excursion_details, menu);
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_excursion_details, menu);
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.share) {
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            String t = editTitle.getText().toString();
+            String d = editDate.getText().toString();
+            sendIntent.putExtra(Intent.EXTRA_TEXT, "Excursion Name: " + t +
+                    " Date: " + d);
+            sendIntent.putExtra(Intent.EXTRA_TITLE, t);
+            sendIntent.setType("text/plain");
+            Intent shareIntent = Intent.createChooser(sendIntent, null);
+            startActivity(shareIntent);
             return true;
         }
-
-        public boolean onOptionsItemSelected(MenuItem item) {
-            if (item.getItemId() == R.id.share) {
-                Intent sendIntent=new Intent();
-                sendIntent.setAction(Intent.ACTION_SEND);
-                String t=editTitle.getText().toString();
-                String d=editDate.getText().toString();
-                sendIntent.putExtra(Intent.EXTRA_TEXT, "Excursion Name: "+t+
-                        " Date: "+d);
-                sendIntent.putExtra(Intent.EXTRA_TITLE, t);
-                sendIntent.setType("text/plain");
-                Intent shareIntent=Intent.createChooser(sendIntent, null);
-                startActivity(shareIntent);
-                return true;
+        if (item.getItemId() == R.id.notify_excursion) {
+            String dateFromScreen = editDate.getText().toString();
+            String myFormat = "MM/dd/yy";
+            SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+            String note = editTitle.getText().toString();
+            Date myDate = null;
+            try {
+                myDate = sdf.parse(dateFromScreen);
+            } catch (ParseException e) {
+                e.printStackTrace();
             }
-            if (item.getItemId() == R.id.notify_excursion){
-                String dateFromScreen=editDate.getText().toString();
-                String myFormat= "MM/dd/yy";
-                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-                String note = editTitle.getText().toString();
-                Date myDate=null;
-                try {
-                    myDate=sdf.parse(dateFromScreen);
-                }
-                catch (ParseException e){
-                    e.printStackTrace();
-                }
-                Long trigger =myDate.getTime();
-                String message =  "Your "+note + " is today.";
-                Intent intent = new Intent(ExcursionDetails.this, MyReceiver.class);
-                intent.putExtra("key", message);
-                PendingIntent sender = PendingIntent.getBroadcast(ExcursionDetails.this, ++MainActivity.numAlert,intent, PendingIntent.FLAG_IMMUTABLE);
-                AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
-                return true;
-            }
-            if (item.getItemId() == R.id.delete_vacation) {
-                for (Excursion exc : repository.getAllExcursions()) {
-                    if (exc.getExcursionID() == id) currentExcursion = exc;
-                }
-                repository.delete(currentExcursion);
-                Toast.makeText(ExcursionDetails.this, currentExcursion.getExcursionTitle()
-                        + " was deleted.", Toast.LENGTH_LONG).show();
-                return true;
-            }
-            return super.onOptionsItemSelected(item);
+            Long trigger = myDate.getTime();
+            String message = "Your " + note + " is today.";
+            Intent intent = new Intent(ExcursionDetails.this, MyReceiver.class);
+            intent.putExtra("key", message);
+            PendingIntent sender = PendingIntent.getBroadcast(ExcursionDetails.this, ++MainActivity.numAlert, intent, PendingIntent.FLAG_IMMUTABLE);
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
+            return true;
         }
+        if (item.getItemId() == R.id.delete_vacation) {
+            for (Excursion exc : repository.getAllExcursions()) {
+                if (exc.getExcursionID() == id) currentExcursion = exc;
+            }
+            repository.delete(currentExcursion);
+            Toast.makeText(ExcursionDetails.this, currentExcursion.getExcursionTitle()
+                    + " was deleted.", Toast.LENGTH_LONG).show();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

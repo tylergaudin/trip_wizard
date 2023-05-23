@@ -18,18 +18,19 @@ import java.util.List;
 
 public class VacationList extends AppCompatActivity {
     private Repository repository;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vacation_list);
-        RecyclerView recyclerView=findViewById(R.id.vacationrecyclerview);
-        final VacationAdapter vacationAdapter= new VacationAdapter(this);
-        final ExcursionAdapter excursionAdapter= new ExcursionAdapter(this);
+        RecyclerView recyclerView = findViewById(R.id.vacationrecyclerview);
+        final VacationAdapter vacationAdapter = new VacationAdapter(this);
+        final ExcursionAdapter excursionAdapter = new ExcursionAdapter(this);
         recyclerView.setAdapter(vacationAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        repository=new Repository(getApplication());
-        List<Vacation> allVacations=repository.getAllVacations();
-        List<Excursion> allExcursions=repository.getAllExcursions();
+        repository = new Repository(getApplication());
+        List<Vacation> allVacations = repository.getAllVacations();
+        List<Excursion> allExcursions = repository.getAllExcursions();
         FloatingActionButton fab = findViewById(R.id.floatingActionButton);
         vacationAdapter.setVacations(allVacations);
         excursionAdapter.setExcursions(allExcursions);
@@ -47,11 +48,11 @@ public class VacationList extends AppCompatActivity {
     protected void onResume() {
 
         super.onResume();
-        List<Vacation> allVacations=repository.getAllVacations();
-        List<Excursion> allExcursions=repository.getAllExcursions();
-        RecyclerView recyclerView=findViewById(R.id.vacationrecyclerview);
+        List<Vacation> allVacations = repository.getAllVacations();
+        List<Excursion> allExcursions = repository.getAllExcursions();
+        RecyclerView recyclerView = findViewById(R.id.vacationrecyclerview);
         final VacationAdapter vacationAdapter = new VacationAdapter(this);
-        final ExcursionAdapter excursionAdapter= new ExcursionAdapter(this);
+        final ExcursionAdapter excursionAdapter = new ExcursionAdapter(this);
         recyclerView.setAdapter(vacationAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         vacationAdapter.setVacations(allVacations);
