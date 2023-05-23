@@ -1,13 +1,13 @@
 package android.schedulertyler.tripwizard.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
-import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.schedulertyler.tripwizard.R;
@@ -20,7 +20,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -237,12 +236,12 @@ public class VacationDetails extends AppCompatActivity {
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.deletevacation, menu);
+        getMenuInflater().inflate(R.menu.menu_vacation_details, menu);
         return true;
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.deletevacation) {
+        if (item.getItemId() == R.id.delete_vacation) {
             for (Vacation vac : repository.getAllVacations()) {
                 if (vac.getVacationID() == id) currentVacation = vac;
             }
@@ -261,6 +260,63 @@ public class VacationDetails extends AppCompatActivity {
                         "Can't delete a vacation with excursions scheduled.",
                         Toast.LENGTH_LONG).show();
             }
+            return true;
+        }
+        else if (item.getItemId() == R.id.share) {
+            Intent sendIntent=new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            String t=editTitle.getText().toString();
+            String h=editLodging.getText().toString();
+            String s=editStart.getText().toString();
+            String e=editEnd.getText().toString();
+            sendIntent.putExtra(Intent.EXTRA_TEXT, "Vacation Name: "+t+ " Lodging: "+h+
+                    " From "+s+" to "+e);
+            sendIntent.putExtra(Intent.EXTRA_TITLE, t);
+            sendIntent.setType("text/plain");
+            Intent shareIntent=Intent.createChooser(sendIntent, null);
+            startActivity(shareIntent);
+            return true;
+        }
+        else if (item.getItemId() == R.id.notify_start){
+            String dateFromScreen=editStart.getText().toString();
+            String myFormat= "MM/dd/yy";
+            SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+            Date myDate=null;
+            try {
+                myDate=sdf.parse(dateFromScreen);
+            }
+            catch (ParseException e){
+                e.printStackTrace();
+            }
+            Long trigger =myDate.getTime();
+            Intent intent = new Intent(VacationDetails.this, MyReceiver.class);
+            intent.putExtra("key", "Your vacation starts today.");
+            PendingIntent sender = PendingIntent.getBroadcast
+                    (VacationDetails.this,
+                            ++MainActivity.numAlert,intent, PendingIntent.FLAG_IMMUTABLE);
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
+            return true;
+        }
+        else if (item.getItemId() == R.id.notify_end){
+            String dateFromScreen=editEnd.getText().toString();
+            String myFormat= "MM/dd/yy";
+            SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+            Date myDate=null;
+            try {
+                myDate=sdf.parse(dateFromScreen);
+            }
+            catch (ParseException e){
+                e.printStackTrace();
+            }
+            Long trigger =myDate.getTime();
+            Intent intent = new Intent(VacationDetails.this, MyReceiver.class);
+            intent.putExtra("key", "Your vacation ends today.");
+            PendingIntent sender = PendingIntent.getBroadcast
+                    (VacationDetails.this,
+                            ++MainActivity.numAlert,intent, PendingIntent.FLAG_IMMUTABLE);
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
             return true;
         }
         return super.onOptionsItemSelected(item);
