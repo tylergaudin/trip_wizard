@@ -22,10 +22,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Button button=findViewById(R.id.button);
-        /*Vacation vacation=new Vacation(0, "Taniti", "Marriott",
-                "2024-01-22","2024-01-24");
-        Repository repository=new Repository(getApplication());
-        repository.insert(vacation);*/
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -33,23 +29,5 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-    }
-    public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.addSampleData) {
-
-                Vacation vacation=new Vacation(0, "Taniti", "Marriott",
-                        "2024-01-22","2024-01-24");
-                Repository repository=new Repository(getApplication());
-                repository.insert(vacation);
-                Excursion excursion=new Excursion(0, "Snorkeling",
-                        "2024-01-23", 0);
-                repository.insert(excursion);
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 }
