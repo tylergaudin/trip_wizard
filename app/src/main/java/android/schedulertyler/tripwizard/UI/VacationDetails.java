@@ -41,6 +41,7 @@ public class VacationDetails extends AppCompatActivity {
     DatePickerDialog.OnDateSetListener startDate;
     DatePickerDialog.OnDateSetListener endDate;
     final Calendar myCalendar = Calendar.getInstance();
+    final Calendar myCalendar2 = Calendar.getInstance();
     String title;
     String lodging;
     String start;
@@ -61,17 +62,17 @@ public class VacationDetails extends AppCompatActivity {
         editEnd = findViewById(R.id.enddate);
         String myFormat = "MM/dd/yy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-        /*String sd = sdf.format(new Date());
-        String ed = sdf.format(new Date());*/
+        String sd = sdf.format(new Date());
+        String ed = sdf.format(new Date());
         id = getIntent().getIntExtra("id", -1);
         title = getIntent().getStringExtra("title");
         lodging = getIntent().getStringExtra("lodging");
         start = getIntent().getStringExtra("start_date");
         end = getIntent().getStringExtra("end_date");
-        editTitle.setText(title);
-        editLodging.setText(lodging);
-        editStart.setText(start);
-        editEnd.setText(end);
+        editTitle.setText(sd);
+        editLodging.setText(ed);
+        /*editStart.setText(sdf.format((start));
+        editEnd.setText(sdf.format(end));*/
         repository = new Repository(getApplication());
         RecyclerView recyclerView = findViewById(R.id.excursionrecyclerview);
         repository = new Repository(getApplication());
@@ -120,14 +121,24 @@ public class VacationDetails extends AppCompatActivity {
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH, month);
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                updateEditTextStart();
+                try {
+                    updateEditTextStart();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
 
-            private void updateEditTextStart() {
+            private void updateEditTextStart() throws ParseException {
                 String myFormat = "MM/dd/yy";
                 SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-
-                editStart.setText(sdf.format(myCalendar.getTime()));
+                String info = editEnd.getText().toString();
+                if (myCalendar.getTime().after(sdf.parse(info))) {
+                    Toast.makeText(VacationDetails.this,
+                            "Start date must be before end date.",
+                            Toast.LENGTH_LONG).show();
+                } else {
+                    editStart.setText(sdf.format(myCalendar.getTime()));
+                }
             }
         };
 
@@ -137,20 +148,32 @@ public class VacationDetails extends AppCompatActivity {
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH, month);
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                updateEditTextEnd();
+                try {
+                    updateEditTextEnd();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
 
-            private void updateEditTextEnd() {
+            private void updateEditTextEnd() throws ParseException {
                 String myFormat = "MM/dd/yy";
                 SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-
-                editEnd.setText(sdf.format(myCalendar.getTime()));
+                String info = editStart.getText().toString();
+                if (myCalendar.getTime().before(sdf.parse(info))) {
+                    Toast.makeText(VacationDetails.this,
+                            "End date must be after start date.",
+                            Toast.LENGTH_LONG).show();
+                } else {
+                    editEnd.setText(sdf.format(myCalendar.getTime()));
+                }
             }
         };
         Button button = findViewById(R.id.savevacation);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 if (id == -1) {
                     vacation = new Vacation(0, editTitle.getText().toString(),
                             editLodging.getText().toString(), editStart.getText().toString(),
