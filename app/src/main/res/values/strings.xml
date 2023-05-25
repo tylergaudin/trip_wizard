@@ -18,4 +18,7 @@
     <string name="chosen_lodging">Chosen Lodging</string>
     <string name="enter">Enter</string>
     <string name="trip_wizard">Trip Wizard</string>
+    <string name="search_vacations">Search Vacations</string>
+    <string name="search_by_title">Search By Title</string>
+    <string name="search">Search</string>
 </resources>

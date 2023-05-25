@@ -10,14 +10,20 @@ import android.schedulertyler.tripwizard.R;
 import android.schedulertyler.tripwizard.database.Repository;
 import android.schedulertyler.tripwizard.entities.Excursion;
 import android.schedulertyler.tripwizard.entities.Vacation;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class VacationList extends AppCompatActivity {
     private Repository repository;
+    private EditText editSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,10 +36,30 @@ public class VacationList extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         repository = new Repository(getApplication());
         List<Vacation> allVacations = repository.getAllVacations();
+        List<Vacation> filteredVacations = new ArrayList<>();
         List<Excursion> allExcursions = repository.getAllExcursions();
         FloatingActionButton fab = findViewById(R.id.floatingActionButton);
         vacationAdapter.setVacations(allVacations);
         excursionAdapter.setExcursions(allExcursions);
+        editSearch = findViewById(R.id.search);
+
+
+        Button searchButton = findViewById(R.id.search_button);
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                filteredVacations.clear();
+
+                    for (Vacation vac: repository.getAllVacations()){
+                        if (vac.getVacationTitle().toLowerCase().contains
+                                (editSearch.getText().toString().toLowerCase())){
+                            filteredVacations.add(vac);
+                        }
+                    }
+                    vacationAdapter.setVacations(filteredVacations);
+                    recyclerView.setAdapter(vacationAdapter);
+                }
+        });
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
