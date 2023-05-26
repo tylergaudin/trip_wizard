@@ -44,3 +44,6 @@ Click save to save the new excursion.
 Android version APK deployed to: 3.
 
 Git Repository: https://gitlab.com/tylergaudin/d308-tylergaudin
+
+Panopto Explanation:
+https://wgu.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=61503062-4b3d-43d8-a3ed-b00e000c5eee
