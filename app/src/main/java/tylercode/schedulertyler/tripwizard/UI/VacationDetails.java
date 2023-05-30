@@ -1,4 +1,4 @@
-package android.schedulertyler.tripwizard.UI;
+package tylercode.schedulertyler.tripwizard.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,10 +10,10 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.schedulertyler.tripwizard.R;
-import android.schedulertyler.tripwizard.database.Repository;
-import android.schedulertyler.tripwizard.entities.Excursion;
-import android.schedulertyler.tripwizard.entities.Vacation;
+import tylercode.schedulertyler.tripwizard.R;
+import tylercode.schedulertyler.tripwizard.database.Repository;
+import tylercode.schedulertyler.tripwizard.entities.Excursion;
+import tylercode.schedulertyler.tripwizard.entities.Vacation;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -255,9 +255,16 @@ public class VacationDetails extends AppCompatActivity {
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
+        int numVacations = 0;
         if (item.getItemId() == R.id.delete_vacation) {
             for (Vacation vac : repository.getAllVacations()) {
-                if (vac.getVacationID() == id) currentVacation = vac;
+                if (vac.getVacationID() == id){
+                    currentVacation = vac;
+                    numVacations++;
+                }
+                else {Toast.makeText(VacationDetails.this,
+                        "Can't delete when there is no vacation scheduled.",
+                        Toast.LENGTH_LONG).show();}
             }
 
             numExcursions = 0;
@@ -265,11 +272,17 @@ public class VacationDetails extends AppCompatActivity {
                 if (excursion.getVacationID() == id) ++numExcursions;
             }
 
-            if (numExcursions == 0) {
+            if (numExcursions == 0 && numVacations > 0) {
                 repository.delete(currentVacation);
                 Toast.makeText(VacationDetails.this, currentVacation.getVacationTitle()
                         + " was deleted.", Toast.LENGTH_LONG).show();
-            } else {
+            }
+            else if (numVacations < 1){
+                Toast.makeText(VacationDetails.this,
+                        "No vacation to delete.",
+                        Toast.LENGTH_LONG).show();
+            }
+            else {
                 Toast.makeText(VacationDetails.this,
                         "Can't delete a vacation with excursions scheduled.",
                         Toast.LENGTH_LONG).show();

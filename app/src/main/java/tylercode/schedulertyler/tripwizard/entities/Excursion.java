@@ -1,4 +1,4 @@
-package android.schedulertyler.tripwizard.entities;
+package tylercode.schedulertyler.tripwizard.entities;
 
 import androidx.room.Entity;
 import androidx.room.ForeignKey;

@@ -1,10 +1,10 @@
-package android.schedulertyler.tripwizard.database;
+package tylercode.schedulertyler.tripwizard.database;
 
 import android.app.Application;
-import android.schedulertyler.tripwizard.dao.ExcursionDAO;
-import android.schedulertyler.tripwizard.dao.VacationDAO;
-import android.schedulertyler.tripwizard.entities.Excursion;
-import android.schedulertyler.tripwizard.entities.Vacation;
+import tylercode.schedulertyler.tripwizard.dao.ExcursionDAO;
+import tylercode.schedulertyler.tripwizard.dao.VacationDAO;
+import tylercode.schedulertyler.tripwizard.entities.Excursion;
+import tylercode.schedulertyler.tripwizard.entities.Vacation;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;

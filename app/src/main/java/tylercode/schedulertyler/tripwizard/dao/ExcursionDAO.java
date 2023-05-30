@@ -1,6 +1,6 @@
-package android.schedulertyler.tripwizard.dao;
+package tylercode.schedulertyler.tripwizard.dao;
 
-import android.schedulertyler.tripwizard.entities.Excursion;
+import tylercode.schedulertyler.tripwizard.entities.Excursion;
 
 import androidx.room.Dao;
 import androidx.room.Delete;

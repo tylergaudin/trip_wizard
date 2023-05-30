@@ -1,4 +1,4 @@
-package android.schedulertyler.tripwizard.UI;
+package tylercode.schedulertyler.tripwizard.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,10 +8,10 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.schedulertyler.tripwizard.R;
-import android.schedulertyler.tripwizard.database.Repository;
-import android.schedulertyler.tripwizard.entities.Excursion;
-import android.schedulertyler.tripwizard.entities.Vacation;
+import tylercode.schedulertyler.tripwizard.R;
+import tylercode.schedulertyler.tripwizard.database.Repository;
+import tylercode.schedulertyler.tripwizard.entities.Excursion;
+import tylercode.schedulertyler.tripwizard.entities.Vacation;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -187,13 +187,24 @@ public class ExcursionDetails extends AppCompatActivity {
             alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
             return true;
         }
+        int numExcursions = 0;
         if (item.getItemId() == R.id.delete_vacation) {
             for (Excursion exc : repository.getAllExcursions()) {
-                if (exc.getExcursionID() == id) currentExcursion = exc;
+                if (exc.getExcursionID() == id) {
+                    currentExcursion = exc;
+                    numExcursions++;
+                }
             }
-            repository.delete(currentExcursion);
-            Toast.makeText(ExcursionDetails.this, currentExcursion.getExcursionTitle()
-                    + " was deleted.", Toast.LENGTH_LONG).show();
+
+            if (numExcursions == 1) {
+                repository.delete(currentExcursion);
+                Toast.makeText(ExcursionDetails.this, currentExcursion.getExcursionTitle()
+                        + " was deleted.", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(ExcursionDetails.this,
+                        "No excursion to delete.",
+                        Toast.LENGTH_LONG).show();
+            }
             return true;
         }
         return super.onOptionsItemSelected(item);

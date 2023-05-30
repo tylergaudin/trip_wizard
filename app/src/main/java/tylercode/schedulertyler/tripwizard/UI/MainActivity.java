@@ -1,19 +1,12 @@
-package android.schedulertyler.tripwizard.UI;
+package tylercode.schedulertyler.tripwizard.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.schedulertyler.tripwizard.R;
-import android.schedulertyler.tripwizard.database.Repository;
-import android.schedulertyler.tripwizard.entities.Excursion;
-import android.schedulertyler.tripwizard.entities.Vacation;
-import android.view.Menu;
-import android.view.MenuItem;
+import tylercode.schedulertyler.tripwizard.R;
 import android.view.View;
 import android.widget.Button;
-
-import java.time.LocalDate;
 
 public class MainActivity extends AppCompatActivity {
     public static int numAlert;

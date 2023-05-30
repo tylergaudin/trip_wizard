@@ -1,4 +1,4 @@
-package android.schedulertyler.tripwizard.UI;
+package tylercode.schedulertyler.tripwizard.UI;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -6,7 +6,7 @@ import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.schedulertyler.tripwizard.R;
+import tylercode.schedulertyler.tripwizard.R;
 import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;

@@ -1,4 +1,4 @@
-package android.schedulertyler.tripwizard.UI;
+package tylercode.schedulertyler.tripwizard.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -6,12 +6,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.schedulertyler.tripwizard.R;
-import android.schedulertyler.tripwizard.database.Repository;
-import android.schedulertyler.tripwizard.entities.Excursion;
-import android.schedulertyler.tripwizard.entities.Vacation;
-import android.text.Editable;
-import android.text.TextWatcher;
+import tylercode.schedulertyler.tripwizard.R;
+import tylercode.schedulertyler.tripwizard.database.Repository;
+import tylercode.schedulertyler.tripwizard.entities.Excursion;
+import tylercode.schedulertyler.tripwizard.entities.Vacation;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;

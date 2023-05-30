@@ -1,10 +1,10 @@
-package android.schedulertyler.tripwizard.UI;
+package tylercode.schedulertyler.tripwizard.UI;
 
 import android.content.Context;
 import android.content.Intent;
-import android.schedulertyler.tripwizard.R;
-import android.schedulertyler.tripwizard.entities.Excursion;
-import android.schedulertyler.tripwizard.entities.Vacation;
+import tylercode.schedulertyler.tripwizard.R;
+import tylercode.schedulertyler.tripwizard.entities.Excursion;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

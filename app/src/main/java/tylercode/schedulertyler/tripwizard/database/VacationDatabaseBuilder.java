@@ -1,10 +1,10 @@
-package android.schedulertyler.tripwizard.database;
+package tylercode.schedulertyler.tripwizard.database;
 
 import android.content.Context;
-import android.schedulertyler.tripwizard.dao.ExcursionDAO;
-import android.schedulertyler.tripwizard.dao.VacationDAO;
-import android.schedulertyler.tripwizard.entities.Excursion;
-import android.schedulertyler.tripwizard.entities.Vacation;
+import tylercode.schedulertyler.tripwizard.dao.ExcursionDAO;
+import tylercode.schedulertyler.tripwizard.dao.VacationDAO;
+import tylercode.schedulertyler.tripwizard.entities.Excursion;
+import tylercode.schedulertyler.tripwizard.entities.Vacation;
 
 import androidx.room.Database;
 import androidx.room.Room;

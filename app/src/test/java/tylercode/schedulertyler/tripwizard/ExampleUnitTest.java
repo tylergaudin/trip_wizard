@@ -1,4 +1,4 @@
-package android.schedulertyler.tripwizard;
+package tylercode.schedulertyler.tripwizard;
 
 import org.junit.Test;
 
